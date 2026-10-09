@@ -44,7 +44,7 @@ We received a sudden cloud bill. Find the amplification path, estimate the maxim
 
 The skill audits read-only by default. It does not change infrastructure, purge queues, rotate keys, or run load or fault tests unless you authorize each action. During an incident it gives containment steps for you to run. It runs a step only when you authorize that step.
 
-The workflow is vendor-neutral. Only Cloudflare Workers has a product-specific checklist so far; other providers use the general patterns and controls.
+The workflow is vendor-neutral. Only Cloudflare (Workers, storage, R2, and AI products) has a product-specific checklist so far; other providers use the general patterns and controls.
 
 This project summarizes incident patterns and links original sources. It is not affiliated with ServerlessHorrors or any cloud provider.
 

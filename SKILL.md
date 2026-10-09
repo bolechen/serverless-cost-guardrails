@@ -104,7 +104,7 @@ Classify who can trigger each path:
 - **A3 leaked credential:** a stolen service key, token, or user session.
 - **A4 internal:** a bug, retry loop, deploy, test, crawler, or autonomous agent.
 
-Judge severity against the user's loss tolerance. Ask for it, or for a monthly budget, when it is not stated. Without one, treat a loss of more than 10% of current monthly spend within the loss window as significant, and say that you used this default.
+Judge severity against the user's loss tolerance. If the user does not state it, ask for it or for current monthly spend. Without one, treat a loss of more than 10% of current monthly spend within the loss window as significant, and say that you used this default.
 
 Estimate severity from the reachable spend rate: unit cost × the request rate an actor can actually sustain × amplification per request. Actor class alone does not set severity. A cheap anonymous call with a low unit price may still be bounded well below tolerance.
 

@@ -1,4 +1,4 @@
 interface:
   display_name: "Serverless Cost Guardrails"
   short_description: "Audit runaway cloud billing risks before they explode"
-  default_prompt: "Use $serverless-cost-guardrails to audit this system for runaway cloud billing risks and recommend proportional controls."
+  default_prompt: "Use $serverless-cost-guardrails to audit this system for runaway cloud billing risks and recommend controls that bound the loss."

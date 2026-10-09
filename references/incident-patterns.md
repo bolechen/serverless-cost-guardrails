@@ -17,7 +17,7 @@ Signals:
 Controls:
 
 - separate enqueue and execute commands;
-- carry an immutable job ID and decreasing attempt budget;
+- carry an immutable job ID and a decreasing attempt count;
 - use a dead-letter destination and maximum delivery count;
 - reject cyclic workflow transitions;
 - cap work per tenant and globally.
@@ -80,6 +80,6 @@ Separate accounts or projects. Give test credentials a spend limit. Disable prod
 
 ## Control-plane traps
 
-Stopping the visible service may not stop its storage, snapshots, IPs, logs, replicas, queues, or managed add-ons. A provider budget may notify without enforcing a stop, or a stop action may exclude some charges.
+Stopping the visible service may not stop its storage, snapshots, IPs, logs, replicas, queues, or managed add-ons. A provider budget may only send a notification, or a stop action may exclude some charges.
 
 Test the actual stop procedure before an incident. Document what continues billing and how to restore service safely.

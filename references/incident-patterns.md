@@ -12,7 +12,8 @@ Signals:
 - a user-facing `async` flag reaches the internal worker;
 - retry count resets across service boundaries;
 - an alarm reschedules before successful completion;
-- poison messages return to the same queue forever.
+- poison messages return to the same queue forever;
+- a successful handler writes output that its own trigger accepts as new input, such as a result written back to the same unfiltered bucket or event subscription. Retry limits do not stop this loop because every event succeeds.
 
 Controls:
 
@@ -82,4 +83,4 @@ Separate accounts or projects. Give test credentials a spend limit. Disable prod
 
 Stopping the visible service may not stop its storage, snapshots, IPs, logs, replicas, queues, or managed add-ons. A provider budget may only send a notification, or a stop action may exclude some charges.
 
-Test the actual stop procedure before an incident. Document what continues billing and how to restore service safely.
+Removing a schedule from configuration may not remove the deployed schedule. In Cloudflare Wrangler, an omitted `crons` property leaves deployed Cron Triggers in place; only `crons = []` removes them. Test the actual stop procedure before an incident. Document what continues billing and how to restore service safely.

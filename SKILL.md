@@ -37,6 +37,7 @@ Do not change a system unless you have authorization for that action. This appli
 - provider budgets, application limits, and alerts;
 - queues (purge or replay) and stored data;
 - keys (rotate or revoke);
+- the target repository: working tree, branches, stashes, and commits.
 - provider support tickets.
 
 Before you run a load test, fault injection, or a poison-message test:
@@ -44,6 +45,8 @@ Before you run a load test, fault injection, or a poison-message test:
 1. Get authorization for the test.
 2. Make sure that the target is a test environment.
 3. Write the abort condition.
+
+To read a revision that is not checked out, use a read-only command, such as `git show <rev>:<path>`. Do not switch branches in the target repository.
 
 Read-only queries can cost money:
 
@@ -90,6 +93,7 @@ If prices, quotas, or product controls affect the conclusion, verify current off
 1. State the audit scope: services, environments, accounts, and repositories in scope, and what is excluded.
 2. Identify all usage-priced dependencies and fixed-cost capacity limits. Start from environment variable names, SDK dependencies, and provider configuration, not from a file walk.
 3. List every entry point: route handlers, server actions and RPC handlers, webhooks, schedules, and queue consumers. Trace each public or semi-public one to its billable effects. In a large repository, read these entry points and the code they call first, then state what you did not read.
+   For each entry point, label its reachability as code fact, config fact, inference, or unknown. A framework rule, such as which server actions get a callable ID, is inference until you verify it.
 4. Look for the amplification patterns in [references/incident-patterns.md](references/incident-patterns.md).
 5. Inspect both success and failure paths. A fallback or retry often costs more than the normal path.
 6. Check live request and billing data when access exists, within the limits in Boundaries. Use repository evidence only for code-level claims.
@@ -97,7 +101,7 @@ If prices, quotas, or product controls affect the conclusion, verify current off
 8. Recommend controls in layers: prevent, contain, detect, and stop.
 9. Separate immediate containment from durable remediation.
 
-Read [references/control-catalog.md](references/control-catalog.md) when designing controls. Read [references/case-notes.md](references/case-notes.md) when comparing findings with public incidents or explaining why a pattern matters. For a Cloudflare Workers project, also read [references/cloudflare-workers-checklist.md](references/cloudflare-workers-checklist.md).
+Read [references/control-catalog.md](references/control-catalog.md) when designing controls. Read [references/case-notes.md](references/case-notes.md) when comparing findings with public incidents or explaining why a pattern matters. When the target uses a billable Cloudflare product (Workers, Durable Objects, Queues, D1, KV, R2, Images, Workers AI, or AI Gateway), also read [references/cloudflare-workers-checklist.md](references/cloudflare-workers-checklist.md). Use only the sections for products in use.
 
 ## Audit categories
 
@@ -143,9 +147,9 @@ Classify who can trigger each path:
 - **A3 leaked credential:** a stolen service key, token, or user session.
 - **A4 internal:** a bug, retry loop, deploy, test, crawler, or autonomous agent.
 
-Judge severity against the user's loss tolerance. If the user does not state it, ask for it or for current monthly spend. Without one, treat a loss of more than 10% of current monthly spend within the loss window as significant, and say that you used this default.
+Judge severity against the user's loss tolerance. If the user does not state it, ask once for it or for current monthly spend. Do not stop the audit to wait for the answer. Until the user answers, treat a loss of more than 10% of current monthly spend within the loss window as significant, and say that you used this default.
 
-Estimate severity from the reachable spend rate: unit cost × the request rate an actor can actually sustain × amplification per request. Actor class alone does not set severity. A cheap anonymous call with a low unit price may still be bounded well below tolerance.
+Estimate severity from the reachable spend rate: unit cost × the request rate an actor can actually sustain × amplification per request. Use the largest input that the actor can submit: text length, batch size, document count, and model choice. Actor class alone does not set severity. A cheap anonymous call with a low unit price may still be bounded well below tolerance.
 
 Use these default priorities:
 

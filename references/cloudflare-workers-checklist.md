@@ -1,6 +1,6 @@
 # Cloudflare Workers Billing Checklist
 
-Use this reference only when the target uses Cloudflare Workers products. Verify enabled bindings and current pricing from `wrangler` configuration, deployed settings, and official documentation. Do not assume that a package dependency means a service is deployed.
+Use this reference when the target uses a billable Cloudflare product. If the application does not run on Workers, use only the sections for the products in use, such as R2 or AI Gateway. Verify enabled bindings and current pricing from `wrangler` configuration, deployed settings, and official documentation. Do not assume that a package dependency means a service is deployed.
 
 For each category, report a finding or `not found`, in addition to the core audit categories in `SKILL.md`. Cite exact files and deployed configuration inspected. Live counts of D1 rows, KV keys, or R2 objects are billed reads; bound them as described in the Boundaries section of `SKILL.md`. Estimate trigger frequency and worst-case monthly billed units before converting units to money.
 

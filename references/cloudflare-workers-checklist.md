@@ -2,7 +2,7 @@
 
 Use this reference only when the target uses Cloudflare Workers products. Verify enabled bindings and current pricing from `wrangler` configuration, deployed settings, and official documentation. Do not assume that a package dependency means a service is deployed.
 
-For each category, report a finding or `not found`. Cite exact files and deployed configuration inspected. Estimate trigger frequency and worst-case monthly billed units before converting units to money.
+For each category, report a finding or `not found`, in addition to the core audit categories in `SKILL.md`. Cite exact files and deployed configuration inspected. Live counts of D1 rows, KV keys, or R2 objects are billed reads; bound them as described in the Boundaries section of `SKILL.md`. Estimate trigger frequency and worst-case monthly billed units before converting units to money.
 
 ## Durable Objects and alarms
 
@@ -70,7 +70,9 @@ For each category, report a finding or `not found`. Cite exact files and deploye
 
 Static inspection finds plausible paths. It does not prove termination.
 
-In an isolated environment with a tiny quota:
+Run these tests only after the user explicitly authorizes them for a named isolated account or environment. Many Cloudflare products have no enforceable per-account spend cap, so use application-level limits and a firm abort condition instead of relying on a provider quota. Never run them against production bindings.
+
+In that environment:
 
 1. make the downstream service fail continuously;
 2. deliver a poison queue message;

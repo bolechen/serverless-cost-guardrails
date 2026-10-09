@@ -18,7 +18,7 @@ Or clone the repository and copy it into your agent's skills directory:
 git clone https://github.com/bolechen/serverless-cost-guardrails.git
 ```
 
-The skill follows the standard `SKILL.md` layout and includes Codex UI metadata in `agents/openai.yaml`.
+The skill follows the standard `SKILL.md` layout and includes Codex UI metadata in `agents/openai.yaml`. The example prompts use Codex's `$skill` syntax; in other agents, name the skill in plain text.
 
 ## Example prompts
 
@@ -27,7 +27,7 @@ Use $serverless-cost-guardrails to audit this architecture before launch.
 ```
 
 ```text
-Compare our queue, AI, storage, and email paths with public runaway-billing incidents. Separate verified facts, inference, and unknown dashboard settings.
+Compare our queue, AI, storage, and email paths with public runaway-billing incidents. Separate measured facts, code and config facts, inference, and unknown dashboard settings.
 ```
 
 ```text
@@ -41,6 +41,10 @@ We received a sudden cloud bill. Find the amplification path, estimate the maxim
 - preventive, containment, detection, and stop controls;
 - immediate and durable actions;
 - explicit unknowns that require provider-dashboard verification.
+
+The skill audits read-only by default. It does not change infrastructure, purge queues, rotate keys, or run load or fault tests unless you authorize each action. During an incident it gives containment steps for you to run, and executes them only with per-action approval.
+
+The workflow is vendor-neutral. Only Cloudflare Workers has a product-specific checklist so far; other providers use the general patterns and controls.
 
 This project summarizes incident patterns and links original sources. It is not affiliated with ServerlessHorrors or any cloud provider.
 

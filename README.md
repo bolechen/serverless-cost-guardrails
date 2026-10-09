@@ -42,7 +42,7 @@ We received a sudden cloud bill. Find the amplification path, estimate the maxim
 - immediate and durable actions;
 - explicit unknowns that require provider-dashboard verification.
 
-The skill audits read-only by default. It does not change infrastructure, purge queues, rotate keys, or run load or fault tests unless you authorize each action. During an incident it gives containment steps for you to run, and executes them only with per-action approval.
+The skill audits read-only by default. It does not change infrastructure, purge queues, rotate keys, or run load or fault tests unless you authorize each action. During an incident it gives containment steps for you to run. It runs a step only when you authorize that step.
 
 The workflow is vendor-neutral. Only Cloudflare Workers has a product-specific checklist so far; other providers use the general patterns and controls.
 

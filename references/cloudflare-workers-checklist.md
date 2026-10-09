@@ -22,7 +22,7 @@ For each category, report a finding or `not found`, in addition to the core audi
 
 ## Queues and Worker call graphs
 
-- Draw producer-to-consumer and Worker-to-Worker edges. Reject cycles unless a decreasing budget proves termination.
+- Draw producer-to-consumer and Worker-to-Worker edges. Reject cycles unless a decreasing attempt count proves termination.
 - Ensure a consumer cannot forward the original asynchronous mode back into the public enqueue path.
 - Verify maximum deliveries, dead-letter handling, batch size, partial-batch retry behavior, and poison-message isolation.
 - Count operations per message after batching. Batching changes request count, not total downstream work.
@@ -48,7 +48,7 @@ For each category, report a finding or `not found`, in addition to the core audi
 
 - Bound agent steps, tool rounds, refinement loops, retries, output tokens, and parallel model calls.
 - Treat client-selected models, rerank flags, reasoning modes, and batch sizes as cost-bearing input.
-- Apply per-principal and global token or request budgets before the model call.
+- Apply per-principal and global application limits on tokens or requests before the model call.
 - Cache safe deterministic work and use distributed single-flight for expensive cache misses.
 - Provide a kill switch and a cache-only or non-AI degraded mode.
 
@@ -68,11 +68,11 @@ For each category, report a finding or `not found`, in addition to the core audi
 
 ## Verification
 
-Static inspection finds plausible paths. It does not prove termination.
+Static inspection finds possible paths. It does not prove termination.
 
-Run these tests only after the user explicitly authorizes them for a named isolated account or environment. Many Cloudflare products have no enforceable per-account spend cap, so use application-level limits and a firm abort condition instead of relying on a provider quota. Never run them against production bindings.
+Before you run these tests, follow the test procedure in the Boundaries section of `SKILL.md`: get authorization, use a test environment, and write the abort condition. Many Cloudflare products have no hard cap. Use application limits and the abort condition as the spend limit. Do not run these tests against production bindings.
 
-In that environment:
+In the test environment:
 
 1. make the downstream service fail continuously;
 2. deliver a poison queue message;

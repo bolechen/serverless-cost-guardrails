@@ -17,7 +17,7 @@ Signals:
 Controls:
 
 - separate enqueue and execute commands;
-- carry an immutable job ID and decreasing attempt budget;
+- carry an immutable job ID and a decreasing attempt count;
 - use a dead-letter destination and maximum delivery count;
 - reject cyclic workflow transitions;
 - cap work per tenant and globally.
@@ -42,7 +42,7 @@ Require a bounded fallback, a migration completion signal, and a kill switch. Al
 
 An attacker spends the owner's money through a legitimate API: AI inference, image transformation, cache fill, exports, email/SMS, authentication, object storage, analytics, or egress.
 
-Authentication alone is insufficient when free accounts are cheap. Apply per-IP, per-principal, per-tenant, and global budgets at the side effect.
+Authentication alone is insufficient when free accounts are cheap. Apply per-IP, per-principal, per-tenant, and global application limits at the side effect.
 
 ## Retry storms and partial failure
 
@@ -74,10 +74,10 @@ Set maximum bytes billed or equivalent limits when supported. Partition and prun
 
 Load tests, preview deployments, CI loops, AI coding agents, and synthetic monitors use production-priced resources.
 
-Separate accounts or projects. Give test credentials small quotas. Disable production email, cron, migration, and batch jobs in previews. Put a terminal condition on autonomous agents and workflows.
+Separate accounts or projects. Give test credentials a spend limit. Disable production email, cron, migration, and batch jobs in previews. Put a terminal condition on autonomous agents and workflows.
 
 ## Control-plane traps
 
-Stopping the visible service may not stop its storage, snapshots, IPs, logs, replicas, queues, or managed add-ons. A provider budget may notify without enforcing a stop, or a stop action may exclude some charges.
+Stopping the visible service may not stop its storage, snapshots, IPs, logs, replicas, queues, or managed add-ons. A provider budget may only send a notification, or a stop action may exclude some charges.
 
 Test the actual stop procedure before an incident. Document what continues billing and how to restore service safely.

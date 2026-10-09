@@ -15,14 +15,14 @@ Choose controls that bound the specific billing meter. Prefer multiple independe
 
 - Apply per-request work limits and streaming byte limits.
 - Apply per-IP, principal, tenant, feature, and global rate limits.
-- Use daily token, event, byte, message, and object budgets.
+- Use daily application limits on tokens, events, bytes, messages, and objects.
 - Use distributed idempotency and single-flight control.
 - Cap concurrency at the expensive side effect.
 - Configure maximum queue deliveries and dead-letter handling.
-- Add circuit breakers and provider-specific kill switches.
+- Add circuit breakers (automatic stops) and kill switches for each paid provider.
 - Serve a degraded cached or static mode when a paid dependency is disabled.
 
-Rate limits and budgets solve different problems. A steady request rate can still exceed a monthly budget; a low monthly budget can still allow a damaging one-minute burst.
+Rate limits and total-usage limits solve different problems. A steady request rate can still exceed a monthly application limit. A low monthly limit can still allow a damaging one-minute burst.
 
 ## Detect
 
@@ -32,12 +32,12 @@ Rate limits and budgets solve different problems. A steady request rate can stil
 - Attribute usage by feature, tenant, route, job type, model, and environment.
 - Send alerts through a channel that does not depend on the failing service.
 
-An alert without a named responder, response deadline, and stop command is not a control.
+An alert without a named responder, a response deadline, and a stop control is not a control.
 
 ## Stop
 
 - Verify whether the provider offers a true hard cap, delayed action, notification only, or no cap.
-- Test automatic actions in a non-production account.
+- Test automatic stops in a test environment, with authorization.
 - Protect stop and resume operations with strong authentication and audit logs.
 - Define who can accept downtime versus continued spend.
 - Make recovery explicit: reconcile queues, deduplicate side effects, rotate compromised keys, and re-enable features gradually.
@@ -51,7 +51,7 @@ Every bound needs an explicit window. The default window runs from first exploit
 Use the first applicable bound:
 
 1. hard provider cap, minus charge classes it excludes;
-2. global application budget;
+2. global application limit;
 3. global rate limit multiplied by detection and shutdown time;
 4. tenant/principal count multiplied by its quota, only when principal creation is itself bounded (with free self-service signup, this bound does not apply);
 5. queue depth multiplied by maximum attempts and cost per attempt;
@@ -69,10 +69,10 @@ Use observable behavior:
 - duplicate delivery produces one paid side effect;
 - a poison job reaches the dead-letter destination;
 - the circuit breaker opens and serves degraded mode;
-- a budget webhook or action fires in a test environment;
+- a provider budget notification or action fires in a test environment;
 - usage dashboards and internal counters agree within an explained delay;
 - stopping service A does not leave storage, replicas, or queues growing.
 
-Exercise failure paths, not only successful requests. In a safe test environment, make the downstream dependency fail repeatedly and observe whether retry count, delay, dead-letter routing, circuit breaking, and billing-side effects match the design. A retry that stops during a normal run has not proved that it stops under persistent failure.
+Before you run fault injection, a load test, or a poison-message test, follow the test procedure in the Boundaries section of `SKILL.md`: get authorization, use a test environment, and write the abort condition. A test account that is billed at production prices still needs a spend limit.
 
-Do not run fault injection, load tests, or poison-message tests without explicit authorization for a named isolated environment, a small test quota, and a firm abort condition. This applies even when the dependency is a test account billed at production prices.
+Exercise failure paths, not only successful requests. In the test environment, make the downstream dependency fail repeatedly. Observe whether retry count, delay, dead-letter routing, circuit breaking, and billing side effects match the design. A retry that stops during a normal run has not proved that it stops under persistent failure.

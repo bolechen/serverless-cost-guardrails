@@ -70,7 +70,7 @@ For each category, report a finding or `not found`, in addition to the core audi
 
 Static inspection finds possible paths. It does not prove termination.
 
-Before you run these tests, follow the test procedure in the Boundaries section of `SKILL.md`: get authorization, use a test environment, and write the abort condition. Many Cloudflare products have no hard cap. Use application limits and the abort condition as the spend limit. Do not run these tests against production bindings.
+Before you run these tests, follow the test procedure in the Boundaries section of `SKILL.md`: get authorization, use a test environment, and write the abort condition. Do not assume that a Cloudflare product has a hard cap; check the current billing documentation. Without a verified hard cap, use application limits and the abort condition as the spend limit. Do not run these tests against production bindings.
 
 In the test environment:
 

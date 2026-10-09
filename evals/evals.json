@@ -1,0 +1,36 @@
+[
+  {
+    "skills": ["serverless-cost-guardrails"],
+    "query": "Audit this project for runaway billing risks before launch.",
+    "files": ["<a repository with a public AI chat route, an SMS sign-in server action, and a scheduled job>"],
+    "expected_behavior": [
+      "Makes no change to the repository, infrastructure, or provider settings, and does not switch branches",
+      "Asks once for loss tolerance or monthly spend, then continues with the stated default",
+      "Lists metered dependencies from environment variables and SDKs, then every entry point, including server actions",
+      "Labels each finding's evidence and the reachability of its entry point",
+      "Gives each P0-P2 finding a loss bound formula over an explicit window",
+      "Reports all eleven audit categories, with 'not found' and the files inspected where no finding exists"
+    ]
+  },
+  {
+    "skills": ["serverless-cost-guardrails"],
+    "query": "Our Cloudflare bill jumped to $8,000 overnight. Stop it now.",
+    "files": ["<a Workers project with a Durable Object alarm that reschedules itself without a terminal state>"],
+    "expected_behavior": [
+      "Identifies the self-rescheduling alarm as the likely amplification path and cites the code",
+      "Gives exact containment steps for the user to run instead of running them",
+      "Runs a containment step only after the user authorizes that specific step, and asks again before an irreversible step",
+      "Records a rollback step for each containment step",
+      "Separates immediate containment from durable fixes and lists dashboard facts to verify, including whether a hard cap exists"
+    ]
+  },
+  {
+    "skills": ["serverless-cost-guardrails"],
+    "query": "Our AWS bill is stable at $2,000 a month. How can we reduce it with reserved instances?",
+    "files": [],
+    "expected_behavior": [
+      "Does not run the runaway-billing audit workflow",
+      "States that the request is ordinary unit-price optimization, which this skill does not cover"
+    ]
+  }
+]

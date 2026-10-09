@@ -95,6 +95,8 @@ We received a sudden cloud bill. Find the amplification path, estimate the maxim
 - The skill does not freeze prices, quotas, or provider features. Each audit verifies current official documentation and records the retrieval date.
 - The workflow is vendor-neutral. Only Cloudflare (Workers, storage, R2, and AI products) has a product-specific checklist so far; other providers use the general patterns and controls.
 
+`evals/evals.json` holds three behavior scenarios (pre-launch audit, active incident, and an out-of-scope request) in the format from Anthropic's [skill authoring best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices#build-evaluations-first). The skill does not load this file.
+
 This project summarizes incident patterns and links original sources. It is not affiliated with ServerlessHorrors or any cloud provider.
 
 ## 中文说明

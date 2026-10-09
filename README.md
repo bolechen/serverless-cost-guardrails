@@ -6,7 +6,13 @@ It turns public incident patterns from [ServerlessHorrors](https://serverlesshor
 
 ## Install
 
-Install with your preferred skill manager, or copy this repository into your agent's skills directory.
+Install from [skills.sh](https://www.skills.sh/p/CeCib20mkAR8I0HC):
+
+```sh
+npx skills add https://skills.sh/p/CeCib20mkAR8I0HC
+```
+
+Or clone the repository and copy it into your agent's skills directory:
 
 ```sh
 git clone https://github.com/bolechen/serverless-cost-guardrails.git

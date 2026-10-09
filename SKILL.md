@@ -41,7 +41,7 @@ If prices, quotas, or product controls affect the conclusion, verify current off
 7. Recommend controls in layers: prevent, contain, detect, and stop.
 8. Separate immediate containment from durable remediation.
 
-Read [references/control-catalog.md](references/control-catalog.md) when designing controls. Read [references/case-notes.md](references/case-notes.md) when comparing findings with public incidents or explaining why a pattern matters.
+Read [references/control-catalog.md](references/control-catalog.md) when designing controls. Read [references/case-notes.md](references/case-notes.md) when comparing findings with public incidents or explaining why a pattern matters. For a Cloudflare Workers project, also read [references/cloudflare-workers-checklist.md](references/cloudflare-workers-checklist.md).
 
 ## Non-negotiable checks
 
@@ -84,6 +84,8 @@ For each material finding, report:
 | Loss bound | Formula or `unbounded/unknown` |
 | Action | Smallest control that materially reduces risk |
 | Verification | Test or live signal that proves the control works |
+
+Report every applicable audit category. For a category with no finding, say `not found` and name the files or configuration inspected. Do not turn absence from a text search into proof of absence.
 
 End with:
 

@@ -2,7 +2,7 @@
 
 An agent skill for auditing serverless and usage-based systems for runaway cloud bills and denial-of-wallet paths.
 
-It turns public incident patterns from [ServerlessHorrors](https://serverlesshorrors.com/) into a vendor-neutral audit workflow. It focuses on loss bounds: recursion, retries, fan-out, scans, storage growth, bandwidth, paid API abuse, missing alerts, and ineffective stop controls.
+It turns public incident patterns from [ServerlessHorrors](https://serverlesshorrors.com/) and practical review prompts such as [Cell's Cloudflare checklist](https://x.com/cellinlab/status/2108021292071067953) into a vendor-neutral audit workflow. It focuses on loss bounds: recursion, retries, fan-out, scans, storage growth, bandwidth, paid API abuse, missing alerts, and ineffective stop controls.
 
 ## Install
 

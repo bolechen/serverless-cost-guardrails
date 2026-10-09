@@ -68,3 +68,7 @@ Use observable behavior:
 - a budget webhook or action fires in a test environment;
 - usage dashboards and internal counters agree within an explained delay;
 - stopping service A does not leave storage, replicas, or queues growing.
+
+Exercise failure paths, not only successful requests. In a safe test environment, make the downstream dependency fail repeatedly and observe whether retry count, delay, dead-letter routing, circuit breaking, and billing-side effects match the design. A retry that stops during a normal run has not proved that it stops under persistent failure.
+
+Do not run fault injection against production-priced dependencies without explicit authorization, a small test quota, and a firm abort condition.

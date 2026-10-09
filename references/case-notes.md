@@ -4,6 +4,8 @@ Source hub: [ServerlessHorrors](https://serverlesshorrors.com/)
 
 These are concise pattern notes, not reproductions of the original stories. Open the current source before citing details because posts and provider conclusions can change.
 
+The Cloudflare code-review checklist was also informed by [Cell's post on X](https://x.com/cellinlab/status/2108021292071067953), which called out alarms that always reschedule, polling without stop conditions, cron idempotency, D1 query shape, cyclic Queue/Worker calls, hot-path writes, unlimited retries, and AI loops without iteration caps. A reply adds an important verification point: persistent downstream failure is the test that reveals whether retries truly stop.
+
 ## Recursive queues, storage writes, and fallback scans
 
 [RetainDB, reported $36,000](https://serverlesshorrors.com/all/cloudflare-36k/)

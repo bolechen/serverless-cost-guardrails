@@ -93,7 +93,7 @@ If prices, quotas, or product controls affect the conclusion, verify current off
 1. State the audit scope: services, environments, accounts, and repositories in scope, and what is excluded.
 2. Identify all usage-priced dependencies and fixed-cost capacity limits. Start from environment variable names, SDK dependencies, and provider configuration, not from a file walk.
 3. List every entry point: route handlers, server actions and RPC handlers, webhooks, schedules, and queue consumers. Trace each public or semi-public one to its billable effects. In a large repository, read these entry points and the code they call first, then state what you did not read.
-   Label each entry point's reachability. If the application's own client calls it, reachability is a code fact. If no client calls it, a framework rule (such as which server actions get a callable ID) is inference until you verify it.
+   Label each entry point's reachability. If the application's own client calls it, reachability for the actor class that uses that client is a code fact. If no client calls it, a framework rule (such as which server actions get a callable ID) is inference until you verify it.
 4. Look for the amplification patterns in [references/incident-patterns.md](references/incident-patterns.md).
 5. Inspect both success and failure paths. A fallback or retry often costs more than the normal path.
 6. Check live request and billing data when access exists, within the limits in Boundaries. Use repository evidence only for code-level claims.

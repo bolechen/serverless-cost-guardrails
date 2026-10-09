@@ -53,7 +53,7 @@ Use the first applicable bound:
 1. hard provider cap, minus charge classes it excludes;
 2. global application limit;
 3. global rate limit multiplied by detection and shutdown time;
-4. tenant/principal count multiplied by its quota, only when principal creation is itself bounded (with free self-service signup, this bound does not apply);
+4. tenant/principal count multiplied by its application limit, only when principal creation is itself bounded (with free self-service signup, this bound does not apply);
 5. queue depth multiplied by maximum attempts and cost per attempt;
 6. storage/object limit multiplied by unit cost and retention.
 

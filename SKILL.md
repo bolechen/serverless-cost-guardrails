@@ -18,6 +18,7 @@ Use each term only with this meaning, in this skill and in the report.
 - **Abort condition**: the counter and the value that stop a test, written before the test starts.
 - **Loss tolerance**: the loss that the user accepts within the loss window.
 - **Application limit**: a limit on requests, tokens, bytes, messages, or objects that the application enforces.
+- **Provider quota**: a usage limit that the provider enforces, such as requests per minute or tokens per day.
 - **Provider budget**: a spend threshold in the provider billing console. It can send a notification or start an action. Do not use "budget" with another meaning.
 - **Hard cap**: a provider control that stops billable usage at a set amount.
 - **Automatic stop**: an action that runs without a human when usage crosses a threshold, such as a provider budget action or a circuit breaker.
@@ -78,7 +79,7 @@ For every metered operation, record:
 - the maximum work from one trigger;
 - retry, recursion, and concurrency behavior;
 - deduplication or idempotency scope;
-- application quota and provider quota;
+- application limit and provider quota;
 - alert delay and stop controls;
 - the largest loss that the actor can cause before containment.
 

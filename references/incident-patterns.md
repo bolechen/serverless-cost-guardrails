@@ -58,7 +58,7 @@ Add jitter, exponential backoff, a retry ceiling, and a circuit breaker. Do not 
 
 A small set of large public objects can dominate data transfer. CDN caching does not help when URLs vary, range requests bypass cache, transformations are dynamic, or the CDN itself bills transfer and requests.
 
-Inventory object size, cache key dimensions, range behavior, origin shielding, signed URL policy, and maximum bytes per principal. Rate-limit by bytes when request count hides the real cost.
+Inventory object size, cache key dimensions, range behavior, origin shielding, signed URL policy, and maximum bytes per principal. Rate-limit by bytes when request count hides the real cost. Check whether the provider bills rejected or unauthorized requests; a private resource is not automatically free to attack.
 
 ## Storage accumulation
 

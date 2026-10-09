@@ -16,7 +16,11 @@ The published summary attributes the bill to three compounding paths: a queue wo
 
 [Cloudflare Durable Objects, reported $8,846.78](https://serverlesshorrors.com/all/cloudflare-88k/)
 
-The summary says two stateful objects entered an infinite loop and the team learned from the bill. The reusable lesson is to bound internal work even when no public request remains active, and to verify whether the provider offers an enforceable spend stop.
+The summary says two stateful objects entered an infinite loop and the team learned from the bill. The reusable lesson is to bound internal work even when no public request remains active, and to verify whether the provider offers a hard cap.
+
+[Cloudflare Durable Object alarm, reported $10,811.41](https://serverlesshorrors.com/all/cloudflare-108k/)
+
+The author reports one alarm that kept rescheduling itself, about 6 trillion reads and writes, and a loop that ran until the invoice arrived. The author calls the code vibe-coded. The reusable lesson is to give every self-rescheduling alarm a terminal state, and to review generated code for that condition.
 
 ## Large-scale bandwidth
 
@@ -27,6 +31,12 @@ The report highlights that caching mitigations did not make extreme pageview vol
 [Netlify DDoS, reported $104,500](https://serverlesshorrors.com/all/netlify-104k/)
 
 The reported attack focused on a multi-megabyte static file and generated extreme transfer. The reusable lesson is that “static” does not mean costless. Bound hot-object bytes and place denial-of-wallet protection in front of storage and CDN delivery.
+
+## Denied requests that still bill
+
+[Empty private S3 bucket, reported $1,300.69](https://serverlesshorrors.com/all/aws-13k/)
+
+The report says that unauthorized requests to a private bucket were billed, so anyone who knew the bucket name could raise the bill. The reusable lesson is to check whether the provider bills rejected requests, and to keep storage names that receive public traffic hard to guess.
 
 ## Email and account-creation abuse
 

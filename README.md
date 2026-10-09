@@ -48,6 +48,10 @@ The workflow is vendor-neutral. Only Cloudflare Workers has a product-specific c
 
 This project summarizes incident patterns and links original sources. It is not affiliated with ServerlessHorrors or any cloud provider.
 
+## Author
+
+Bole Chen ([@avenger on X](https://x.com/avenger))
+
 ## License
 
 MIT

@@ -44,13 +44,13 @@ For every metered operation, record:
 - alert delay and automatic stop behavior;
 - the largest plausible loss before containment.
 
-If prices, quotas, or product controls affect the conclusion, verify current official provider documentation. Label unverified dashboard state as unknown.
+If prices, quotas, or product controls affect the conclusion, verify current official provider documentation. Label unverified dashboard state as unknown. When a loss formula needs a unit price you cannot verify, you may use an estimate, labeled `unverified estimate` with its source and date. Keep the formula so the reader can substitute the real price.
 
 ## Audit in this order
 
 1. State the audit scope: services, environments, accounts, and repositories in scope, and what is excluded.
-2. Identify all usage-priced dependencies and fixed-cost capacity limits.
-3. Trace public and semi-public triggers to billable effects.
+2. Identify all usage-priced dependencies and fixed-cost capacity limits. Start from environment variable names, SDK dependencies, and provider configuration, not from a file walk.
+3. List every entry point: route handlers, server actions and RPC handlers, webhooks, schedules, and queue consumers. Trace each public or semi-public one to its billable effects. In a large repository, read these entry points and the code they call first, then state what you did not read.
 4. Look for the amplification patterns in [references/incident-patterns.md](references/incident-patterns.md).
 5. Inspect both success and failure paths. A fallback or retry often costs more than the normal path.
 6. Check live request and billing data when access exists, within the limits in Boundaries. Use repository evidence only for code-level claims.
@@ -82,6 +82,9 @@ Provider checklists add product-specific categories. Report those too when the p
 
 - Reject a queue consumer that can enqueue the same logical job without a decreasing retry budget or terminal state.
 - Treat user-controlled async/sync modes, callback URLs, batch sizes, model choices, and rerank flags as cost-control inputs.
+- Treat server actions, RPC handlers, and client-reported flags (such as "captcha unavailable") as public input. A client-side bypass of a CAPTCHA or challenge removes the control.
+- Reject quotas stored only on the client (cookies, local storage, request headers). Dropping the cookie resets them.
+- Check that edge rules (WAF, rate limits, bot rules) cover every host that reaches the same paid credentials, including preview and alternate domains.
 - Check idempotency at the billing side effect, not only at the HTTP handler.
 - Check deduplication across processes or regions when the platform scales horizontally. An in-memory map is not a distributed lock.
 - Bound list, scan, and fallback operations. A rare fallback can become the main path after an index or migration miss.
@@ -103,12 +106,16 @@ Classify who can trigger each path:
 
 Judge severity against the user's loss tolerance. Ask for it, or for a monthly budget, when it is not stated. Without one, treat a loss of more than 10% of current monthly spend within the loss window as significant, and say that you used this default.
 
+Estimate severity from the reachable spend rate: unit cost × the request rate an actor can actually sustain × amplification per request. Actor class alone does not set severity. A cheap anonymous call with a low unit price may still be bounded well below tolerance.
+
 Use these default priorities:
 
-- **P0:** an A0 or A1 actor can create materially unbounded or significant spend now.
-- **P1:** an A2, A3, or A4 actor can create significant spend before a human can respond.
+- **P0:** an A0 or A1 actor can create unbounded spend now, or spend above 10× the loss tolerance within the loss window.
+- **P1:** an A0 or A1 actor can create significant spend below that level, or an A2, A3, or A4 actor can create significant spend before a human can respond.
 - **P2:** spend is bounded but alerts, attribution, or recovery are weak.
 - **P3:** ordinary efficiency improvement with no credible runaway path. List at most three, briefly. Unit-price optimization is out of scope.
+
+Within each level, order findings by loss bound. If most findings land in one level, say so; the ordering then matters more than the label.
 
 Do not call a path safe merely because current traffic is low. Current traffic measures exploitation, not exploitability.
 
@@ -116,7 +123,7 @@ Data loss or privilege problems found along the way, such as an unfiltered `DELE
 
 ## Loss bound
 
-State every loss bound over an explicit window. The default window runs from first exploitation through detection and shutdown, using the verified alert delay and responder time. Also give the per-billing-cycle bound when it differs. Use the calculation rules in [references/control-catalog.md](references/control-catalog.md).
+State every loss bound over an explicit window. The default window runs from first exploitation through detection and shutdown, using the verified alert delay and responder time. If no spend alert exists or its delay is unverified, use 24 hours and say so. If the owner checks bills or balances less often than daily, use that interval instead. Also give the per-billing-cycle bound when it differs. Use the calculation rules in [references/control-catalog.md](references/control-catalog.md).
 
 ## Required output
 

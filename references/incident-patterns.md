@@ -42,7 +42,9 @@ Require a bounded fallback, a migration completion signal, and a kill switch. Al
 
 An attacker spends the owner's money through a legitimate API: AI inference, image transformation, cache fill, exports, email/SMS, authentication, object storage, analytics, or egress.
 
-Authentication alone is insufficient when free accounts are cheap. Apply per-IP, per-principal, per-tenant, and global budgets at the side effect.
+Authentication alone is insufficient when free accounts are cheap. Apply per-IP, per-principal, per-tenant, and global application limits at the side effect.
+
+Common bypasses: a guest limit kept in a cookie, a CAPTCHA the client may report as unavailable, a same-origin or user-agent check that a script can forge, and a replay guard keyed on identical input. Each of these lowers friction for browsers but does not bound a script.
 
 ## Retry storms and partial failure
 
@@ -74,7 +76,7 @@ Set maximum bytes billed or equivalent limits when supported. Partition and prun
 
 Load tests, preview deployments, CI loops, AI coding agents, and synthetic monitors use production-priced resources.
 
-Separate accounts or projects. Give test credentials small quotas. Disable production email, cron, migration, and batch jobs in previews. Put a terminal condition on autonomous agents and workflows.
+Separate accounts or projects. Give test credentials a spend limit. Disable production email, cron, migration, and batch jobs in previews. A public preview that uses production credentials is another production entry point; check that edge rules scoped by hostname also cover it. Put a terminal condition on autonomous agents and workflows.
 
 ## Control-plane traps
 

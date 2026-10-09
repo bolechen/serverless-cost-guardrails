@@ -83,7 +83,7 @@ Provider checklists add product-specific categories. Report those too when the p
 - Reject a queue consumer that can enqueue the same logical job without a decreasing retry budget or terminal state.
 - Treat user-controlled async/sync modes, callback URLs, batch sizes, model choices, and rerank flags as cost-control inputs.
 - Treat server actions, RPC handlers, and client-reported flags (such as "captcha unavailable") as public input. A client-side bypass of a CAPTCHA or challenge removes the control.
-- Reject quotas stored only on the client (cookies, local storage, request headers). Dropping the cookie resets them.
+- Reject application limits stored only on the client (cookies, local storage, request headers). Dropping the cookie resets them.
 - Check that edge rules (WAF, rate limits, bot rules) cover every host that reaches the same paid credentials, including preview and alternate domains.
 - Check idempotency at the billing side effect, not only at the HTTP handler.
 - Check deduplication across processes or regions when the platform scales horizontally. An in-memory map is not a distributed lock.

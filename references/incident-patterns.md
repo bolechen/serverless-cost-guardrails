@@ -44,7 +44,7 @@ An attacker spends the owner's money through a legitimate API: AI inference, ima
 
 Authentication alone is insufficient when free accounts are cheap. Apply per-IP, per-principal, per-tenant, and global application limits at the side effect.
 
-Common bypasses: a guest quota kept in a cookie, a CAPTCHA the client may report as unavailable, a same-origin or user-agent check that a script can forge, and a replay guard keyed on identical input. Each of these lowers friction for browsers but does not bound a script.
+Common bypasses: a guest limit kept in a cookie, a CAPTCHA the client may report as unavailable, a same-origin or user-agent check that a script can forge, and a replay guard keyed on identical input. Each of these lowers friction for browsers but does not bound a script.
 
 ## Retry storms and partial failure
 

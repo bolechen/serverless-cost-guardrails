@@ -46,14 +46,18 @@ Provider controls change. Verify current official documentation during every aud
 
 ## Calculate the loss bound
 
+Every bound needs an explicit window. The default window runs from first exploitation through detection and shutdown. Also state the per-billing-cycle bound when it differs.
+
 Use the first applicable bound:
 
-1. hard provider cap;
+1. hard provider cap, minus charge classes it excludes;
 2. global application budget;
 3. global rate limit multiplied by detection and shutdown time;
-4. tenant/principal count multiplied by its quota;
+4. tenant/principal count multiplied by its quota, only when principal creation is itself bounded (with free self-service signup, this bound does not apply);
 5. queue depth multiplied by maximum attempts and cost per attempt;
 6. storage/object limit multiplied by unit cost and retention.
+
+A rate limit that is enforced per region, colo, or instance is not a global limit. Multiply it by the number of enforcement points. A bound that depends on a human stop holds only if a named responder can execute it within the window.
 
 Include delayed metering and in-flight work. State uncertainty as a range. If a control has not been tested, discount it rather than treating it as certain.
 
@@ -71,4 +75,4 @@ Use observable behavior:
 
 Exercise failure paths, not only successful requests. In a safe test environment, make the downstream dependency fail repeatedly and observe whether retry count, delay, dead-letter routing, circuit breaking, and billing-side effects match the design. A retry that stops during a normal run has not proved that it stops under persistent failure.
 
-Do not run fault injection against production-priced dependencies without explicit authorization, a small test quota, and a firm abort condition.
+Do not run fault injection, load tests, or poison-message tests without explicit authorization for a named isolated environment, a small test quota, and a firm abort condition. This applies even when the dependency is a test account billed at production prices.

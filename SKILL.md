@@ -1,6 +1,6 @@
 ---
 name: serverless-cost-guardrails
-description: Audits serverless and usage-based systems for runaway cloud bills, denial-of-wallet paths, recursive jobs, unbounded fan-out, storage and bandwidth amplification, and missing spend controls. Use for cloud-cost incident reviews, pre-launch audits, architecture checks, or hardening plans, and when the user mentions a surprise or runaway bill, bill shock, spend caps, budget alerts, or abuse of paid AI, SMS, or email APIs on platforms such as Cloudflare, Vercel, AWS, Google Cloud, Firebase, or Supabase. Also use for 账单爆了、云账单失控、费用风险审计、被刷量. Do not use for ordinary cost optimization where usage is already bounded and the goal is only a lower unit price.
+description: Audits serverless and usage-based systems for runaway cloud bills, denial-of-wallet paths, recursive jobs, unbounded fan-out, storage and bandwidth amplification, and missing spend controls. Use for pre-launch audits, architecture checks, hardening plans, and active cost incidents, including when the user reports a sudden bill spike and asks to stop the spend now. Also use when the user mentions a surprise or runaway bill, bill shock, spend caps, budget alerts, or abuse of paid AI, SMS, or email APIs on platforms such as Cloudflare, Vercel, AWS, Google Cloud, Firebase, or Supabase. Also use for 账单爆了、云账单失控、费用风险审计、被刷量. Do not use for ordinary cost optimization where usage is already bounded and the goal is only a lower unit price.
 ---
 
 # Serverless Cost Guardrails
@@ -186,19 +186,19 @@ For each P0, P1, and P2 finding, report:
 | Action | Smallest control that brings the loss bound below the loss tolerance |
 | Verification | Test or live signal that proves the control works |
 
-Example finding (format only; the values come from one audit):
+Example finding (format only; use the target's own values and prices):
 
 | Field | Content |
 |---|---|
-| Trigger | A0: the sign-in server action `sendCode(phone, captchaUnavailable=true)`, with a new random number on each call |
-| Meter | SMS provider, per message |
-| Amplifier | Concurrency; a timeout retry sends up to 3 messages per call |
-| Existing controls | 60-second cooldown per number (code fact); CAPTCHA skipped when the client reports it unavailable (code fact) |
-| Missing control | Server-side CAPTCHA enforcement; per-IP and global daily send limits |
-| Evidence | Code fact: `actions/auth.ts:540`; config fact: no edge rate limit on this path |
-| Loss bound | `requests/s × 86,400 × (1–3) × unit price` per 24 hours; at 10 requests/s and ¥0.045 (unverified estimate), about ¥39,000 |
-| Action | Enforce the CAPTCHA on the server and add a global daily SMS limit |
-| Verification | A call with `captchaUnavailable=true` fails; the send after the daily limit is rejected before the provider call |
+| Trigger | A0: `POST /api/translate` with any paragraph ID and `model` set by the client |
+| Meter | LLM provider, per input and output token |
+| Amplifier | Corpus size × languages; concurrent requests for the same uncached paragraph each call the model |
+| Existing controls | Translations are cached after the first success (code fact); same-origin check that a script can forge (code fact) |
+| Missing control | Server-side model choice; single-flight per paragraph; global daily translation limit |
+| Evidence | Code fact: `api/translate/route.ts:155`; config fact: the WAF skips this path |
+| Loss bound | `untranslated paragraphs × languages × tokens per paragraph × price of the most expensive allowed model × duplicate factor`; bounded by corpus size, far above tolerance |
+| Action | Ignore the client's model, add a per-paragraph lock, and add a global daily limit |
+| Verification | A request with another `model` uses the server default; two concurrent requests for one paragraph make one model call |
 
 Report every audit category. For a category with no finding, say `not found` and name the files or configuration inspected. Do not turn absence from a text search into proof of absence. A `not found` covers only the stated scope.
 
